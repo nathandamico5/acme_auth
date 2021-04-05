@@ -1,15 +1,14 @@
 const express = require("express");
+const {
+  models: { User },
+} = require("./db");
+const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
-const {
-  models: { User },
-} = require("./db");
-const path = require("path");
-const e = require("express");
 
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
@@ -29,9 +28,6 @@ app.post("/api/auth", async (req, res, next) => {
     next(ex);
   }
 });
-
-// TEST
-// console.log(process.env.secret);
 
 app.get("/api/auth", requireToken, async (req, res, next) => {
   try {
